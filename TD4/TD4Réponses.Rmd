@@ -1,0 +1,34 @@
+---
+title: "TD4 Réponses"
+author: "SuperNopest"
+date: "14 février 2017"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+```{r}
+library(ggplot2);
+```
+
+## Nile
+
+J'ai choisis le fichier avec le volume d'eau du Nil au cours des années.
+
+```{r}
+nileData <-  read.csv("data/Nile.csv");
+nileData;
+```
+```{r}
+ggplot(data=nileData)+ geom_point(aes(x=time,y=Nile,color=Nile));
+```
+
+
+Ce graphe représente le volume d'eau du Nil par rapport au temps, on peu voir que le volume est variable et qu'il a été très bas vers l'annnée 1913.
+```{r}
+ggplot(data=nileData)+ geom_histogram(aes(x=Nile));
+```
+
+
+Ce graphique représente le nombre d'occurence de la hauteur du Nil.
