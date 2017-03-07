@@ -2,7 +2,9 @@
 title: "The Grammar of Graphics (of ggplot2)"
 author: "Lucas Mello Schnorr, Jean-Marc Vincent"
 date: "February 14, 2017"
-output: pdf_document
+output:
+  html_document: default
+  pdf_document: default
 ---
 
 ```{r setup, include=FALSE}
@@ -56,6 +58,11 @@ Let's plot a histogram:
 str(cars);
 ```
 
+
+```{r}
+cars;
+```
+
 ```{r}
 ggplot(data=cars) +
   geom_histogram(aes(x=dist));
@@ -65,8 +72,8 @@ Merge a histogram and the corresponding Probability Density Function (PDF).
 
 ```{r}
 ggplot(cars, aes(x=dist)) +
-  geom_histogram(binwidth = 10)+
-  geom_density(aes(y=10 * ..count..));
+  geom_histogram(binwidth = 10,color='blue')+
+  geom_density(aes(y=10 * ..count..),color='red');
 ```
 
 Boxplot of speed, using a point to represent the mean value.
@@ -79,3 +86,23 @@ Using facets to separate data.
 ```{r}
 ggplot(mtcars, aes(x=hp, y=mpg)) + facet_wrap(~gear) + geom_point();
 ```
+```{r}
+nileData <-  read.csv("data/Nile.csv");
+nileData;
+```
+```{r}
+ggplot(data=nileData)+ geom_point(aes(x=time,y=Nile,color=Nile));
+```
+
+```{r}
+ggplot(data=nileData)+ geom_histogram(aes(x=Nile));
+```
+
+
+Ce graphique représente le nombre d'effectifs par rapport à la hauteur du Nil.
+
+```{r}
+ggplot(data=nileData)+ geom_polygon(aes(x=time,y=Nile,color=Nile))
+```
+
+
