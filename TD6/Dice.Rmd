@@ -1,0 +1,57 @@
+---
+title: "Dices.Rmd"
+author: "SuperNopest"
+date: "7 mars 2017"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+library(dplyr);
+library(magrittr);
+library(ggplot2);
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r Fonction dice}
+dice <- function(faces=6,n=100)
+{
+  sample(x= seq(from=1, to=faces,by=1),size = n, replace= TRUE);
+}
+
+dice (6,25)
+```
+Experience du Duc de Toscane on génère un échantillon de $n$ observations de jets de $3$ dés.
+
+```{r Fonction Experiment}
+experiment <- function (faces=6,n=100)
+{
+  dice1 <- dice(faces,n)
+  dice2 <- dice(faces,n)
+  dice3 <- dice(faces,n)
+  
+  data.frame(Dice1 = dice1,Dice2 = dice2,Dice3 = dice3, Somme =(dice1+dice2+dice3));
+  
+}
+
+experiment(6,1000000) %>%
+  mutate(Sum = Dice1 + Dice2+ Dice3)%>%
+  
+  group_by(Sum)%>%
+  summarize(N=n());
+  
+
+```
+Calcule le nombre d'occurrences de chaque valeur possible de la somme
+
+```{r Experience}
+experiment(6,100000) %>%
+  mutate(Sum = Dice1 + Dice2+ Dice3)%>%
+  ggplot(aes(x=as.factor(Sum)))+ geom_bar(aes(y=(..count..)/sum(..count..)),width=.3)+ylim(0,NA)+theme_bw()+xlab("Somme des 3 dés")+ylab("fréquence d'occurences")
+```
